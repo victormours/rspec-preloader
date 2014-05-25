@@ -3,6 +3,7 @@ require "minitest/autorun"
 
 describe RspecPreloader do
   it "runs the specs" do
-    # `ruby bin/rspec-preloader.rb`
+    output = `cd #{File.dirname(__FILE__)}/fixtures; ruby ../../bin/rspec-preloader.rb`
+    puts output
   end
 end
