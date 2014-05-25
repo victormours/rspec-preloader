@@ -23,11 +23,10 @@ class RspecPreloader
 
   def initial_prompt
     puts "Hello"
-
   end
 
   def first_run
-    load "spec/spec_helper.rb"
+    require "#{Dir.pwd}/spec/spec_helper"
     RSpec::Core::Runner.run([@rspec_arguments], STDERR, STDOUT)
   end
 
