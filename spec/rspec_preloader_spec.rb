@@ -3,7 +3,7 @@ require "minitest/autorun"
 
 class TestRspecPreloader < Minitest::Test
   def preloader_output
-    `cd #{File.dirname(__FILE__)}/fixtures; ruby ../../bin/rspec-preloader.rb`.split("\n")
+    `cd #{File.dirname(__FILE__)}/fake_project; ruby ../../bin/rspec-preloader.rb`.split("\n")
   end
 
   def test_that_output_has_server_status
