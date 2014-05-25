@@ -1,6 +1,7 @@
 Gem::Specification.new do |gem|
   gem.name        = 'rspec-preloader'
   gem.version     = '0.0.0'
+  gem.licenses    = ['MIT']
   gem.summary     = "A faster way to run your specs."
   gem.description = "A prealoader for you spec helper for faster TDD"
   gem.authors     = ["Victor Mours"]
