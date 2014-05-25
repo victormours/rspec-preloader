@@ -24,7 +24,9 @@ class RspecPreloader
 
   def first_run
     require "#{Dir.pwd}/spec/spec_helper"
-    load FileWatcher.changed_files
+    FileWatcher.changed_files.each do |file|
+      load file
+    end
     RSpec::Core::Runner.run([@rspec_arguments], STDERR, STDOUT)
   end
 
