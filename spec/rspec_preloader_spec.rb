@@ -18,7 +18,7 @@ class TestRspecPreloader < Minitest::Test
     source_filename = File.expand_path("fake_project/app/some_class.rb", __dir__)
 
     File.open(source_filename, 'w') do |file|
-      file.puts "Loading source file"
+      file.puts "puts 'Loading source file'"
 
     end
 
