@@ -2,6 +2,21 @@ require_relative "spec_helper"
 require "minitest/autorun"
 
 class TestRspecPreloader < Minitest::Test
+
+  def source_filename
+    File.expand_path("fake_project/app/some_class.rb", __dir__)
+  end
+
+  def setup
+    File.open(source_filename, 'w') do |file|
+      file.puts "puts 'Loading source file'"
+    end
+  end
+
+  def teardown
+    File.delete(source_filename)
+  end
+
   def preloader_output
     `cd #{File.dirname(__FILE__)}/fake_project; ruby ../../bin/rspec-preloader.rb`.split("\n")
   end
@@ -15,16 +30,7 @@ class TestRspecPreloader < Minitest::Test
   end
 
   def test_changed_source_file_is_loaded
-    source_filename = File.expand_path("fake_project/app/some_class.rb", __dir__)
-
-    File.open(source_filename, 'w') do |file|
-      file.puts "puts 'Loading source file'"
-
-    end
-
     assert_equal "Loading source file", preloader_output[2]
-
-    File.delete(source_filename)
   end
 
   def test_specs_are_run
