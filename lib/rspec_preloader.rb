@@ -8,7 +8,7 @@ class RspecPreloader
   end
 
   def initialize(rspec_arguments)
-    @rspec_arguments = "spec/some_class_spec.rb"
+    @rspec_arguments = ""
   end
 
   def run_server
@@ -19,15 +19,33 @@ class RspecPreloader
   private
 
   def initial_prompt
-    puts "Hello"
+    puts "Starting Rspec preloader server"
   end
 
   def first_run
-    require "#{Dir.pwd}/spec/spec_helper"
-    FileWatcher.changed_files.each do |file|
-      load file
+    return if @rspec_arguments == ""
+    fork do
+      require "#{Dir.pwd}/spec/spec_helper"
+      FileWatcher.changed_files.each do |file|
+        load file
+      end
+      RSpec::Core::Runner.run([@rspec_arguments], STDERR, STDOUT)
     end
-    RSpec::Core::Runner.run([@rspec_arguments], STDERR, STDOUT)
+  end
+
+  def server_loop
+    loop do
+      pid = fork do
+        require "#{Dir.pwd}/spec/spec_helper"
+        puts "Ready to run specs"
+        @rspec_arguments = STDIN.gets
+        FileWatcher.changed_files.each do |file|
+          load file
+        end
+        RSpec::Core::Runner.run([@rspec_arguments], STDERR, STDOUT)
+      end
+      Process.wait(pid)
+    end
   end
 
 end
