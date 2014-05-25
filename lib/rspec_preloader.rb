@@ -1,4 +1,4 @@
-class Preloader
+class RspecPreloader
 
   def self.run_server(rspec_arguments)
     new(rspec_arguments).run_server
