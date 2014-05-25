@@ -1,3 +1,5 @@
+require "rspec/core"
+
 class RspecPreloader
 
   def self.run_server(rspec_arguments = "")
@@ -5,12 +7,13 @@ class RspecPreloader
   end
 
   def initialize(rspec_arguments)
-    @rspec_arguments = rspec_arguments
+    # @rspec_arguments = rspec_arguments
+    @rspec_arguments = "spec/some_class_spec.rb"
   end
 
   def run_server
     initial_prompt
-    # first_run
+    first_run
 
     # run_loop
 
@@ -24,7 +27,7 @@ class RspecPreloader
   end
 
   def first_run
-    require File.expand_path("spec/spec_helper", __DIR__)
+    load "spec/spec_helper.rb"
     RSpec::Core::Runner.run([@rspec_arguments], STDERR, STDOUT)
   end
 

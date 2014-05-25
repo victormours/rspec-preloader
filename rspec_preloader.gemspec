@@ -8,5 +8,7 @@ Gem::Specification.new do |gem|
   gem.files       = ["lib/rspec_preloader.rb"]
   gem.homepage    = 'https://github.com/victormours/rspec-preloader'
 
+  gem.add_runtime_dependency "rspec"
+
   gem.add_development_dependency "minitest"
 end
