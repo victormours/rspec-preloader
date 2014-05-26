@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.authors     = ["Victor Mours"]
   gem.email       = 'victor.mours@gmail.com'
   gem.files       = ["lib/rspec_preloader.rb"]
-  gem.executables   = ["rspec-preloader.rb"]
+  gem.executables   = ["rspec-preloader"]
   gem.homepage    = 'https://github.com/victormours/rspec-preloader'
 
   gem.add_runtime_dependency "rspec"
