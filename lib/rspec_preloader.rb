@@ -14,6 +14,7 @@ class RspecPreloader
   def run_server
     initial_prompt
     first_run
+    server_loop
   end
 
   private
