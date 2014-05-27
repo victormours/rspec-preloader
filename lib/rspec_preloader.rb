@@ -25,13 +25,14 @@ class RspecPreloader
 
   def first_run
     return if @rspec_arguments == ""
-    fork do
+    pid = fork do
       require "#{Dir.pwd}/spec/spec_helper"
       FileWatcher.changed_files.each do |file|
         load file
       end
       RSpec::Core::Runner.run([@rspec_arguments], STDERR, STDOUT)
     end
+    Process.wait(pid)
   end
 
   def server_loop
