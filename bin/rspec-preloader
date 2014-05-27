@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require "rspec-preloader"
+require_relative "../lib/rspec_preloader"
 
 RspecPreloader.run_server
