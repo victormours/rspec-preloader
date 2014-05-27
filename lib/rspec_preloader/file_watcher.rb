@@ -8,6 +8,8 @@ class FileWatcher
   def changed_files
     git.status.changed.keys.select do |filename|
       /.rb$/.match(filename)
+    end.reject do |filename|
+      /_spec.rb/.match(filename)
     end
   end
 
