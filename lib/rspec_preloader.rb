@@ -40,7 +40,7 @@ class RspecPreloader
       pid = fork do
         require "#{Dir.pwd}/spec/spec_helper"
         puts "Ready to run specs"
-        @rspec_arguments = STDIN.gets
+        @rspec_arguments = STDIN.gets.chomp
         FileWatcher.changed_files.each do |file|
           load file
         end
