@@ -8,7 +8,7 @@ class RspecPreloader
   end
 
   def initialize(rspec_arguments)
-    @rspec_arguments = ""
+    @rspec_arguments = rspec_arguments
   end
 
   def run_server

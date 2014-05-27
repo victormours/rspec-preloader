@@ -2,4 +2,4 @@
 
 require_relative "../lib/rspec_preloader"
 
-RspecPreloader.run_server
+RspecPreloader.run_server(ARGV)
