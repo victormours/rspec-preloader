@@ -6,7 +6,9 @@ class FileWatcher
   end
 
   def changed_files
-    git.status.changed.keys
+    git.status.changed.keys.select do |filename|
+      /.rb$/.match(filename)
+    end
   end
 
   private
