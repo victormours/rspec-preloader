@@ -21,6 +21,7 @@ class RspecPreloader
 
   def initial_prompt
     puts "Starting Rspec preloader server"
+    puts "Press Ctrl-C to stop"
   end
 
   def first_run
@@ -36,11 +37,16 @@ class RspecPreloader
   end
 
   def server_loop
+    trap("INT") do
+      puts "Shutting down Rspec server"
+      exit
+    end
+
     loop do
       pid = fork do
         require "#{Dir.pwd}/spec/spec_helper"
         puts "Ready to run specs"
-        @rspec_arguments = STDIN.gets.chomp
+        @rspec_arguments = read_rspec_arguments
         FileWatcher.changed_files.each do |file|
           load file
         end
@@ -48,6 +54,11 @@ class RspecPreloader
       end
       Process.wait(pid)
     end
+  end
+
+  def read_rspec_arguments
+    user_input = STDIN.gets.chomp
+    user_input == "" ? @rspec_arguments : user_input
   end
 
 end
