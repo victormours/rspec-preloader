@@ -57,7 +57,7 @@ class RspecPreloader
   end
 
   def run_specs(arguments_array)
-    puts "Running $ rspec #{arguments}"
+    puts "Running $ rspec #{arguments_array}"
     RSpec::Core::Runner.run(arguments_array, STDERR, STDOUT)
   end
 
