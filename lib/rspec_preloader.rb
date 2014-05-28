@@ -57,13 +57,13 @@ class RspecPreloader
   end
 
   def run_specs(arguments_array)
-    puts "Running $ rspec #{arguments_array}"
+    puts "Running $ rspec #{arguments_array.join(" ")}"
     RSpec::Core::Runner.run(arguments_array, STDERR, STDOUT)
   end
 
   def read_rspec_arguments
     user_input = STDIN.gets.chomp.split(" ")
-    user_input == [""] ? @rspec_arguments : user_input
+    user_input == [] ? @rspec_arguments : user_input
   end
 
 end
