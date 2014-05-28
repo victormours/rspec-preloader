@@ -3,7 +3,7 @@ require "rspec_preloader/file_watcher"
 
 class RspecPreloader
 
-  def self.run_server(rspec_arguments = "")
+  def self.run_server(rspec_arguments = [""])
     new(rspec_arguments).run_server
   end
 
@@ -25,13 +25,13 @@ class RspecPreloader
   end
 
   def first_run
-    return if @rspec_arguments == ""
+    return if @rspec_arguments == [""]
     pid = fork do
       require "#{Dir.pwd}/spec/spec_helper"
       FileWatcher.changed_files.each do |file|
         load file
       end
-      RSpec::Core::Runner.run([@rspec_arguments], STDERR, STDOUT)
+      run_specs(@rspec_arguments)
     end
     Process.wait(pid)
   end
@@ -50,15 +50,20 @@ class RspecPreloader
         FileWatcher.changed_files.each do |file|
           load file
         end
-        RSpec::Core::Runner.run([@rspec_arguments], STDERR, STDOUT)
+        run_specs(@rspec_arguments)
       end
       Process.wait(pid)
     end
   end
 
+  def run_specs(arguments_array)
+    puts "Running $ rspec #{arguments}"
+    RSpec::Core::Runner.run(arguments_array, STDERR, STDOUT)
+  end
+
   def read_rspec_arguments
-    user_input = STDIN.gets.chomp
-    user_input == "" ? @rspec_arguments : user_input
+    user_input = STDIN.gets.chomp.split(" ")
+    user_input == [""] ? @rspec_arguments : user_input
   end
 
 end
