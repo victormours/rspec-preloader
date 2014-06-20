@@ -1,5 +1,5 @@
 require "rspec/core"
-require "rspec_preloader/file_watcher"
+require_relative "rspec_preloader/file_watcher"
 
 class RspecPreloader
 
@@ -14,7 +14,7 @@ class RspecPreloader
   def run_server
     initial_prompt
     first_run
-    # server_loop
+    server_loop
   end
 
   private
