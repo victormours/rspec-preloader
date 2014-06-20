@@ -47,7 +47,8 @@ Once you're done, Control-C out of the preloader.
 
 If you want to run rspec with any other arguments, you can give them to the preloader instead of pressing Enter.
 
-rspec-preloader will pass your input to rspec as is, so you can using any input rspec would accept, including specific line numbers or formatting options.
+
+rspec-preloader will pass your input to rspec as is, so you can use any input rspec would accept, including specific line numbers or formatting options.
 
 How it works
 ---
@@ -61,9 +62,12 @@ This is what happens under the hood :
 Issues
 ---
 Things tend to get weird if you're opening a `pry` console from your tests.
+
 If you find any other issue, open it on Github, I'd be really happy to read about it and find a fix.
 
 Contributing
 ---
-Contributions welcome! Just fork it and send a pull request. This gem is under the MIT license by the way.
+Contributions welcome! Just fork it and send a pull request.
+
+This gem is under the MIT license by the way.
 
