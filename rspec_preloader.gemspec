@@ -10,9 +10,9 @@ Gem::Specification.new do |gem|
   gem.executables = ["rspec-preloader"]
   gem.homepage    = 'https://github.com/victormours/rspec-preloader'
 
-  gem.add_runtime_dependency "rspec", "~> 0"
-  gem.add_runtime_dependency "git", "~> 0"
+  gem.add_runtime_dependency "rspec"
+  gem.add_runtime_dependency "git"
 
-  gem.add_development_dependency "minitest", "~> 0"
-  gem.add_development_dependency "pry", "~> 0"
+  gem.add_development_dependency "minitest"
+  gem.add_development_dependency "pry"
 end
