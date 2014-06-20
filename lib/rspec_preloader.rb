@@ -13,6 +13,7 @@ class RspecPreloader
 
   def run_server
     initial_prompt
+    require "#{Dir.pwd}/spec/spec_helper"
     first_run
     server_loop
   end
@@ -27,7 +28,6 @@ class RspecPreloader
   def first_run
     return if @rspec_arguments == [""]
     pid = fork do
-      require "#{Dir.pwd}/spec/spec_helper"
       FileWatcher.changed_files.each do |file|
         load file
       end
@@ -44,7 +44,6 @@ class RspecPreloader
 
     loop do
       pid = fork do
-        require "#{Dir.pwd}/spec/spec_helper"
         puts "Ready to run specs"
         @rspec_arguments = read_rspec_arguments
         FileWatcher.changed_files.each do |file|
