@@ -15,6 +15,12 @@ class RspecPreloader
     initial_prompt
     require "#{Dir.pwd}/spec/spec_helper"
     first_run
+
+    trap("INT") do
+      puts "Shutting down Rspec server"
+      exit
+    end
+
     server_loop
   end
 
@@ -26,38 +32,16 @@ class RspecPreloader
   end
 
   def first_run
-    return if @rspec_arguments == [""]
-    pid = fork do
-      FileWatcher.changed_files.each do |file|
-        load file
-      end
-      run_specs(@rspec_arguments)
-    end
-    Process.wait(pid)
+    return if @rspec_arguments == ""
+    RspecRunner.run_rspec(@rspec_arguments)
   end
 
   def server_loop
-    trap("INT") do
-      puts "Shutting down Rspec server"
-      exit
-    end
-
     loop do
-      pid = fork do
-        puts "Ready to run specs"
-        @rspec_arguments = read_rspec_arguments
-        FileWatcher.changed_files.each do |file|
-          load file
-        end
-        run_specs(@rspec_arguments)
-      end
-      Process.wait(pid)
+      rspec_arguments = read_rspec_arguments
+      puts "Running $ rspec #{rspec_arguments.join(" ")}"
+      RspecRunner.run_rspec(rspec_arguments)
     end
-  end
-
-  def run_specs(arguments_array)
-    puts "Running $ rspec #{arguments_array.join(" ")}"
-    RSpec::Core::Runner.run(arguments_array, STDERR, STDOUT)
   end
 
   def read_rspec_arguments
