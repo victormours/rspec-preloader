@@ -18,6 +18,7 @@ class RspecPreloader
       puts "Shutting down rspec-shell"
       exit
     end
+    load_spec_helper
 
     first_run
     server_loop
