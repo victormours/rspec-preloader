@@ -1,5 +1,7 @@
 require "rspec/core"
+require "readline"
 require_relative "rspec_preloader/file_watcher"
+require_relative "rspec_preloader/rspec_runner"
 
 class RspecPreloader
 
@@ -12,23 +14,21 @@ class RspecPreloader
   end
 
   def run_server
-    initial_prompt
-    require "#{Dir.pwd}/spec/spec_helper"
-    first_run
-
     trap("INT") do
-      puts "Shutting down Rspec server"
+      puts "Shutting down rspec-shell"
       exit
     end
 
+    first_run
     server_loop
   end
 
   private
 
-  def initial_prompt
-    puts "Starting Rspec preloader server"
-    puts "Press Ctrl-C to stop"
+  def load_spec_helper
+    puts "Loading spec_helper..."
+    require "#{Dir.pwd}/spec/spec_helper"
+    puts "Done!"
   end
 
   def first_run
@@ -37,16 +37,14 @@ class RspecPreloader
   end
 
   def server_loop
-    loop do
-      rspec_arguments = read_rspec_arguments
-      puts "Running $ rspec #{rspec_arguments.join(" ")}"
-      RspecRunner.run_rspec(rspec_arguments)
+    while rspec_arguments = Readline.readline("rspec > ", true)
+      rspec_arguments_array = process_input(rspec_arguments)
+      RspecRunner.run_rspec(rspec_arguments_array)
     end
   end
 
-  def read_rspec_arguments
-    user_input = STDIN.gets.chomp.split(" ")
-    user_input == [] ? @rspec_arguments : user_input
+  def process_input(input)
+    input.chomp.split(" ")
   end
 
 end
