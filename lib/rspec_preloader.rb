@@ -38,7 +38,9 @@ class RspecPreloader
   end
 
   def server_loop
-    while rspec_arguments = Readline.readline("rspec > ", true)
+    loop do
+      rspec_arguments = Readline.readline("rspec > ", true)
+      break if [nil, exit].include?(rspec_arguments)
       rspec_arguments_array = process_input(rspec_arguments)
       RspecRunner.run_rspec(rspec_arguments_array)
     end
