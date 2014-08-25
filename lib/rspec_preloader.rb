@@ -1,5 +1,7 @@
 require "rspec/core"
+require "readline"
 require_relative "rspec_preloader/file_watcher"
+require_relative "rspec_preloader/rspec_runner"
 
 class RspecPreloader
 
@@ -12,57 +14,40 @@ class RspecPreloader
   end
 
   def run_server
-    initial_prompt
-    require "#{Dir.pwd}/spec/spec_helper"
+    trap("INT") do
+      puts "Shutting down rspec-shell"
+      exit
+    end
+    load_spec_helper
+
     first_run
     server_loop
   end
 
   private
 
-  def initial_prompt
-    puts "Starting Rspec preloader server"
-    puts "Press Ctrl-C to stop"
+  def load_spec_helper
+    puts "Loading spec_helper..."
+    require "#{Dir.pwd}/spec/spec_helper"
+    puts "Done!"
   end
 
   def first_run
-    return if @rspec_arguments == [""]
-    pid = fork do
-      FileWatcher.changed_files.each do |file|
-        load file
-      end
-      run_specs(@rspec_arguments)
-    end
-    Process.wait(pid)
+    return if @rspec_arguments == ""
+    RspecRunner.run_rspec(@rspec_arguments)
   end
 
   def server_loop
-    trap("INT") do
-      puts "Shutting down Rspec server"
-      exit
-    end
-
     loop do
-      pid = fork do
-        puts "Ready to run specs"
-        @rspec_arguments = read_rspec_arguments
-        FileWatcher.changed_files.each do |file|
-          load file
-        end
-        run_specs(@rspec_arguments)
-      end
-      Process.wait(pid)
+      rspec_arguments = Readline.readline("rspec > ", true)
+      break if [nil, "exit"].include?(rspec_arguments)
+      rspec_arguments_array = process_input(rspec_arguments)
+      RspecRunner.run_rspec(rspec_arguments_array)
     end
   end
 
-  def run_specs(arguments_array)
-    puts "Running $ rspec #{arguments_array.join(" ")}"
-    RSpec::Core::Runner.run(arguments_array, STDERR, STDOUT)
-  end
-
-  def read_rspec_arguments
-    user_input = STDIN.gets.chomp.split(" ")
-    user_input == [] ? @rspec_arguments : user_input
+  def process_input(input)
+    input.chomp.split(" ")
   end
 
 end
