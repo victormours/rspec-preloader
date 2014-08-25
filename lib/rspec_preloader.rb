@@ -15,7 +15,7 @@ class RspecPreloader
 
   def run_server
     trap("INT") do
-      puts "Shutting down rspec-shell"
+      puts "Shutting down rspec-preloader"
       exit
     end
     load_spec_helper
@@ -34,6 +34,7 @@ class RspecPreloader
 
   def first_run
     return if @rspec_arguments == ""
+    Readline::HISTORY << @rspec_arguments.join(" ")
     RspecRunner.run_rspec(@rspec_arguments)
   end
 
@@ -41,13 +42,9 @@ class RspecPreloader
     loop do
       rspec_arguments = Readline.readline("rspec > ", true)
       break if [nil, "exit"].include?(rspec_arguments)
-      rspec_arguments_array = process_input(rspec_arguments)
+      rspec_arguments_array = rspec_arguments.chomp.split(" ")
       RspecRunner.run_rspec(rspec_arguments_array)
     end
-  end
-
-  def process_input(input)
-    input.chomp.split(" ")
   end
 
 end
