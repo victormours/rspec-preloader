@@ -1,7 +1,6 @@
 require "rspec/core"
 require "readline"
-require_relative "rspec_preloader/file_watcher"
-require_relative "rspec_preloader/rspec_runner"
+require_relative "rspec_preloader/file_selector"
 
 class RspecPreloader
 

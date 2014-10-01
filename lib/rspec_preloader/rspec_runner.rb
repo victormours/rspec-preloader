@@ -1,3 +1,5 @@
+require_relative "file_selector"
+
 class RspecPreloader
   class RspecRunner
 
@@ -20,7 +22,7 @@ class RspecPreloader
     private
 
     def load_changed_files
-      FileWatcher.changed_files.each do |file|
+      FileSelector.updated_source_files.each do |file|
         load file
       end
     end
