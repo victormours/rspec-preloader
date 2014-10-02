@@ -1,32 +1,33 @@
 require_relative "rspec_preloader/command_line"
+require_relative "rspec_preloader/server"
 
 class RspecPreloader
 
   def self.run(rspec_arguments = nil)
-    new(rspec_arguments).run
+    setup
+    CommandLine.run(rspec_arguments)
   end
 
-  def initialize(rspec_arguments)
-    @rspec_arguments = rspec_arguments
+  def self.run_server
+    setup
+    Server.run
   end
 
-  def run
+  def self.setup
     trap_int_signal
     load_spec_helper
-
-    CommandLine.run(@rspec_arguments)
   end
 
   private
 
-  def trap_int_signal
+  def self.trap_int_signal
     trap("INT") do
       puts "Shutting down rspec-preloader"
       exit
     end
   end
 
-  def load_spec_helper
+  def self.load_spec_helper
     print "Loading spec_helper..."
     require "#{Dir.pwd}/spec/spec_helper"
     puts "done."
