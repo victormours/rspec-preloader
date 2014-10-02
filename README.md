@@ -1,6 +1,5 @@
 rspec-preloader
 ===============
-A git backed preloader for rspec.
 
 Life is too short to be waiting for your tests to load.
 ---
@@ -24,9 +23,7 @@ Or in your Gemfile
 
 Prereqs
 ---
-This will only work if you're using git and your spec files require `spec/spec_helper.rb` to run.
-
-rspec-preloader will load all modified non-spec ruby files, but not untracked files.
+Rspec and a git repo.
 
 Usage
 ---
@@ -37,31 +34,36 @@ So you're test driving some cool class? Great! Once you write your first test, l
 ```
 This will run `rspec spec/models/some_cool_class_spec.rb` and wait for additional input.
 
-Now write some code to make the test green, go back to your shell and press Enter.
+Now write some code to make the test green, go back to your shell and press Up and Enter.
 
 This will instantly run `rspec spec/models/some_cool_class_spec.rb` again.
 
 Now refactor, and rerun as many times as you want.
 
-Once you're done, Control-C out of the preloader.
+Once you're done, Control-D or `exit` out of the preloader.
 
-If you want to run rspec with any other arguments, you can give them to the preloader instead of pressing Enter.
-
+If you want to run rspec with any other arguments, you can give them to the preloader readline or when calling the command.
 
 rspec-preloader will pass your input to rspec as is, so you can use any input rspec would accept, including specific line numbers or formatting options.
+Only files from `app/` and `lib/` will be reloaded. If you modify spec helpers or spec support files, you should probably restart the preloader.
 
 How it works
 ---
 This is what happens under the hood :
-- Fork a process that loads `spec/spec_helper.rb`, and waits for input.
-- When input is given, find which non-spec ruby files have been modified using git
+- require `spec/spec_helper.rb`, and waits for input.
+- fork a process and run the tests in that process
+- wait for the next command
+- fork
+- find which ruby files in `app/` and `lib/` have been modified using git
 - load them
-- run rspec in the forked process with the given input (or the original options if the input is empty)
+- run rspec in the forked process with the given input
 - start over
 
 Issues
 ---
-Things tend to get weird if you're opening a `pry` console from your tests.
+Some frameworks like Grape don't like having client code reloaded a bunch or time.
+When working with these, your specs might be red and magically go back to green when you restart the preloader.
+Hopefully, I haven't yet faced the case where a spec is green with the preloader and red without it, but you never know.
 
 If you find any other issue, open it on Github, I'd be really happy to read about it and find a fix.
 
