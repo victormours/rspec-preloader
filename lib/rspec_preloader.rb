@@ -1,6 +1,6 @@
 require "rspec/core"
 require "readline"
-require_relative "rspec_preloader/file_selector"
+require_relative "rspec_preloader/spec_runner"
 
 class RspecPreloader
 
@@ -26,15 +26,15 @@ class RspecPreloader
   private
 
   def load_spec_helper
-    puts "Loading spec_helper..."
+    print "Loading spec_helper..."
     require "#{Dir.pwd}/spec/spec_helper"
-    puts "Done!"
+    puts "done."
   end
 
   def first_run
     return if @rspec_arguments == ""
     Readline::HISTORY << @rspec_arguments.join(" ")
-    RspecRunner.run_rspec(@rspec_arguments)
+    SpecRunner.run_rspec(@rspec_arguments)
   end
 
   def server_loop
@@ -42,7 +42,7 @@ class RspecPreloader
       rspec_arguments = Readline.readline("rspec > ", true)
       break if [nil, "exit"].include?(rspec_arguments)
       rspec_arguments_array = rspec_arguments.chomp.split(" ")
-      RspecRunner.run_rspec(rspec_arguments_array)
+      SpecRunner.run_rspec(rspec_arguments_array)
     end
   end
 

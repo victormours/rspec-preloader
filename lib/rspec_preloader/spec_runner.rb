@@ -1,7 +1,7 @@
 require_relative "file_selector"
 
 class RspecPreloader
-  class RspecRunner
+  class SpecRunner
 
     def self.run_rspec(rspec_arguments_array)
       new(rspec_arguments_array).run_rspec
@@ -13,7 +13,7 @@ class RspecPreloader
 
     def run_rspec
       pid = fork do
-        load_changed_files
+        load_updated_files
         run_specs(@rspec_arguments)
       end
       Process.wait(pid)
@@ -21,7 +21,7 @@ class RspecPreloader
 
     private
 
-    def load_changed_files
+    def load_updated_files
       FileSelector.updated_source_files.each do |file|
         load file
       end
