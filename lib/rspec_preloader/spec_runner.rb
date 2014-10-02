@@ -1,3 +1,4 @@
+require "rspec/core"
 require_relative "file_selector"
 
 class RspecPreloader
