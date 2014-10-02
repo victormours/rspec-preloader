@@ -1,6 +1,5 @@
 class FileSelector
   def self.updated_source_files
-    puts "loading #{new.updated_source_files}"
     new.updated_source_files
   end
 
