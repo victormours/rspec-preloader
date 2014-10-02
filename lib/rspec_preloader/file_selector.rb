@@ -6,9 +6,9 @@ class FileSelector
 
   def updated_source_files
     all_updated_files.select do |filename|
-      filename.include?('/app') || filename.include?('/lib')
+      filename.include?('app/') || filename.include?('lib/')
     end.select do |filename|
-      filename.include('.rb')
+      filename.end_with?('.rb')
     end
   end
 
@@ -19,17 +19,20 @@ class FileSelector
         updated_files_statuses.include? file_status_and_name.first
     end
     .map(&:last)
-    .map(&:chomp)
-  end
-
-  def file_statuses_and_names
-    git_status.split("\n").map do |git_status_output_line|
-      git_status_output_line.split(' ')
-    end
   end
 
   def updated_files_statuses
     ['M', 'MM', 'A', '??']
+  end
+
+  def file_statuses_and_names
+    git_status_lines.map do |git_status_line|
+      git_status_line.split(' ')
+    end
+  end
+
+  def git_status_lines
+    git_status.split("\n")
   end
 
   def git_status
