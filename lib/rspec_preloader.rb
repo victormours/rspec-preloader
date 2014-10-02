@@ -1,5 +1,6 @@
 require_relative "rspec_preloader/command_line"
 require_relative "rspec_preloader/server"
+require_relative "rspec_preloader/client"
 
 class RspecPreloader
 
@@ -13,12 +14,16 @@ class RspecPreloader
     Server.run
   end
 
+  def self.run_client(rspec_arguments)
+    Client.run(rspec_arguments)
+  end
+
+  private
+
   def self.setup
     trap_int_signal
     load_spec_helper
   end
-
-  private
 
   def self.trap_int_signal
     trap("INT") do

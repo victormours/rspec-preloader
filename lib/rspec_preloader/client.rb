@@ -1,9 +1,8 @@
 require 'drb/drb'
+require_relative 'server'
 
 class RspecPreloader
   class Client
-
-    SERVER_URI="druby://localhost:8787"
 
     def self.run(rspec_arguments)
       DRb.start_service
