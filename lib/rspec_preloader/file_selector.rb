@@ -5,7 +5,7 @@ class FileSelector
 
   def updated_source_files
     all_updated_files.select do |filename|
-      filename.include?('app/') || filename.include?('lib/')
+      filename.start_with?('app/') || filename.start_with?('lib/')
     end.select do |filename|
       filename.end_with?('.rb')
     end
