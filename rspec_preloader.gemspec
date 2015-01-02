@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name        = 'rspec-preloader'
-  gem.version     = '1.0.0'
+  gem.version     = '1.1.0'
   gem.licenses    = ['MIT']
   gem.summary     = "Start Rspec instantly"
   gem.description = "Life is too short to be waiting for your tests to load."
