@@ -1,14 +1,17 @@
+require "rspec/core"
 require_relative "file_selector"
 
 class RspecPreloader
   class SpecRunner
 
-    def self.run_rspec(rspec_arguments_array)
-      new(rspec_arguments_array).run_rspec
+    def self.run_rspec(rspec_arguments_array, std_err = STDERR, std_out = STDOUT)
+      new(rspec_arguments_array, std_err, std_out).run_rspec
     end
 
-    def initialize(rspec_arguments_array)
+    def initialize(rspec_arguments_array, std_err, std_out)
       @rspec_arguments = rspec_arguments_array
+      @std_err = std_err
+      @std_out = std_out
     end
 
     def run_rspec
@@ -28,7 +31,7 @@ class RspecPreloader
     end
 
     def run_specs(arguments_array)
-      RSpec::Core::Runner.run(arguments_array, STDERR, STDOUT)
+      RSpec::Core::Runner.run(arguments_array, @std_err, @std_out)
     end
 
   end

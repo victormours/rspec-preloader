@@ -1,49 +1,41 @@
-require "rspec/core"
-require "readline"
-require_relative "rspec_preloader/spec_runner"
+require_relative "rspec_preloader/command_line"
+require_relative "rspec_preloader/server"
+require_relative "rspec_preloader/client"
 
 class RspecPreloader
 
-  def self.run_server(rspec_arguments = [""])
-    new(rspec_arguments).run_server
+  def self.run(rspec_arguments = nil)
+    setup
+    CommandLine.run(rspec_arguments)
   end
 
-  def initialize(rspec_arguments)
-    @rspec_arguments = rspec_arguments
+  def self.run_server
+    setup
+    Server.run
   end
 
-  def run_server
-    trap("INT") do
-      puts "Shutting down rspec-preloader"
-      exit
-    end
-    load_spec_helper
-
-    first_run
-    server_loop
+  def self.run_client(rspec_arguments)
+    Client.run(rspec_arguments)
   end
 
   private
 
-  def load_spec_helper
+  def self.setup
+    trap_int_signal
+    load_spec_helper
+  end
+
+  def self.trap_int_signal
+    trap("INT") do
+      puts "Shutting down rspec-preloader"
+      exit
+    end
+  end
+
+  def self.load_spec_helper
     print "Loading spec_helper..."
     require "#{Dir.pwd}/spec/spec_helper"
     puts "done."
-  end
-
-  def first_run
-    return if @rspec_arguments == ""
-    Readline::HISTORY << @rspec_arguments.join(" ")
-    SpecRunner.run_rspec(@rspec_arguments)
-  end
-
-  def server_loop
-    loop do
-      rspec_arguments = Readline.readline("rspec > ", true)
-      break if [nil, "exit"].include?(rspec_arguments)
-      rspec_arguments_array = rspec_arguments.chomp.split(" ")
-      SpecRunner.run_rspec(rspec_arguments_array)
-    end
   end
 
 end
