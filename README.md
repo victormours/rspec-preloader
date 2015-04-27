@@ -4,28 +4,26 @@ rspec-preloader
 Life is too short to be waiting for your tests to load.
 ---
 
-You like TDD, but waiting for your specs to load is sucking the fun out of the process? We've got you covered.
+![rspec-preloader](https://cloud.githubusercontent.com/assets/1840367/7346923/71b0b9ea-ece3-11e4-8423-be241b365d50.gif)
+
 
 rspec-preloader loads your `spec_helper.rb` so that your tests can be started almost instantly. No more waiting for your gems and your whole environment to load.
 
-Prereqs
+Installing
 ---
-Rspec and a git repo.
-
-Client/Server Usage
----
-
+No surprises:
 ```
-$ cd /my/cool/project
-$ rspec-preloader-server
+  gem install rspec-preloader
 ```
-And then run `rspec-preloader-client` just like you would usually run `rspec`.
-Restart your server each time you commit (see the How it works session to find out why).
+
+Or in your Gemfile
+```
+  gem 'rspec-preloader'
+```
 
 Command Line Usage
 ---
 
-So you're test driving some cool class? Great! Once you write your first test, let's make sure that bad boy is red.
 ```
   $rspec-preloader spec/models/some_cool_class_spec.rb
 ```
@@ -41,20 +39,19 @@ Once you're done, Control-D or `exit` out of the preloader.
 
 If you want to run rspec with any other arguments, you can give them to the preloader readline or when calling the command.
 
+Client/Server Usage
+---
+
+```
+$ cd /my/cool/project
+$ rspec-preloader-server
+```
+And then run `rspec-preloader-client` just like you would usually run `rspec`.
+Restart your server each time you commit (see the How it works session to find out why).
+
+
 rspec-preloader will pass your input to rspec as is, so you can use any input rspec would accept, including specific line numbers or formatting options.
 Only files from `app/` and `lib/` will be reloaded. If you modify spec helpers or spec support files, you should probably restart the preloader.
-
-Installing
----
-No surprises:
-```
-  gem install rspec-preloader
-```
-
-Or in your Gemfile
-```
-  gem 'rspec-preloader'
-```
 
 How it works
 ---
