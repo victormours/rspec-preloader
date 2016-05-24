@@ -11,10 +11,14 @@ class RspecPreloader
     def run
       DRb.start_service
 
-      rspec_runner.run_rspec(rspec_arguments, STDERR, STDOUT)
+      rspec_runner.run_rspec(rspec_arguments, STDERR, STDOUT, updated_files)
     end
 
     private
+
+    def updated_files
+      FileSelector.updated_source_files
+    end
 
     def rspec_arguments
       if rspec_preloader_arguments?
