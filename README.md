@@ -53,6 +53,19 @@ Restart your server each time you commit (see the How it works session to find o
 rspec-preloader will pass your input to rspec as is, so you can use any input rspec would accept, including specific line numbers or formatting options.
 Only files from `app/` and `lib/` will be reloaded. If you modify spec helpers or spec support files, you should probably restart the preloader.
 
+Working with Docker
+---
+
+You can use the client/server mode to preload an app running inside a docker container.
+For example:
+```
+$ docker-compose run -p 8787:8787 web rspec-preloader-server
+```
+And then in an other shell
+```
+$ rspec-preloader-client --server $(docker-machine ip) spec/my_class_spec.rb:12
+```
+
 How it works
 ---
 This is what happens under the hood :
