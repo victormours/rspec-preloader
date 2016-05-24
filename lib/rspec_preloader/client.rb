@@ -2,7 +2,7 @@ require 'drb/drb'
 require_relative 'server'
 
 class RspecPreloader
-  class Client
+  Client = Struct.new(:all_arguments) do
 
     def self.run(all_arguments)
       new(all_arguments).run
