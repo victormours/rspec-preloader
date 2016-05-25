@@ -34,7 +34,7 @@ class RspecPreloader
 
   def self.load_spec_helper
     print "Loading spec_helper..."
-    load "#{Dir.pwd}/spec/spec_helper"
+    load "#{Dir.pwd}/spec/spec_helper.rb"
     puts "done."
   end
 
