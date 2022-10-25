@@ -51,7 +51,7 @@ Restart your server each time you commit (see the How it works session to find o
 
 
 rspec-preloader will pass your input to rspec as is, so you can use any input rspec would accept, including specific line numbers or formatting options.
-Only files from `app/` and `lib/` will be reloaded. If you modify spec helpers or spec support files, you should probably restart the preloader.
+Only files from `app/`, `lib/`, `apps/` and `config/` will be reloaded. If you modify spec helpers or spec support files, you should probably restart the preloader.
 
 How it works
 ---
@@ -60,7 +60,7 @@ This is what happens under the hood :
 - fork a process and run the tests in that process
 - wait for the next command
 - fork
-- find which ruby files in `app/` and `lib/` have been modified using git
+- find which ruby files in `app/`, `lib/`, `apps/` and `config/` have been modified using git
 - load them
 - run rspec in the forked process with the given input
 - start over
@@ -78,4 +78,3 @@ Contributing
 Contributions welcome! Just fork it and send a pull request.
 
 This gem is under the MIT license by the way.
-
