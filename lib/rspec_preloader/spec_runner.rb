@@ -31,6 +31,8 @@ class RspecPreloader
     end
 
     def run_specs(arguments_array)
+      # NOTE: Hack to allow subsequent spec runner invocations to work
+      arguments_array.reject! { |arg| ['bundle', 'exec', 'rspec-preloader', 'rspec'].include?(arg) }
       RSpec::Core::Runner.run(arguments_array, @std_err, @std_out)
     end
 
